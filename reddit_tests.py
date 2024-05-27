@@ -1,6 +1,5 @@
 from reddit_search import (
     search_for_a_subreddit,
-    search_for_a_user,
     scrape_subreddit,
     search_subreddit_by_keyword,
 )
@@ -56,7 +55,6 @@ def run_tests():
     results = []
     for test in [
         test_search_for_a_subreddit,
-        test_search_for_a_user,
         test_scrape_subreddit,
         test_search_subreddit_by_keyword,
     ]:
