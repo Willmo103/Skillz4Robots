@@ -114,5 +114,5 @@ __package__ : str
     Package name: reddit_skills
 
 __path__ : str
-    Module path: reddit_search.py
+    Module path: reddit_skills.py
 """
