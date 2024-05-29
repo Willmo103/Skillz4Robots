@@ -7,3 +7,5 @@
 !reddit/__init__.py
 !reddit_skills.py
 !reddit_skills_test.py
+!web_scraping/
+!web_scraping/__init__.py
