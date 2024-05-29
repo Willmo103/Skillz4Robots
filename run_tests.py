@@ -1,5 +1,5 @@
 from test_helpers import run_tests
-from reddit_skills_tests import (
+from reddit.reddit_skills_tests import (
      test_search_for_a_subreddit,
      test_scrape_subreddit,
      test_search_subreddit_by_keyword,

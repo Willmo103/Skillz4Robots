@@ -12,9 +12,9 @@ def test_search_for_a_subreddit():
         result = search_for_a_subreddit("python")
         assert result is not None
         assert len(result) > 0
-        assert result[0].display_name == "Python"
-        assert result[0].title != ""
-        assert result[0].subscribers > 0
+        assert result[0]["display_name"] == "Python"
+        assert result[0]["title"] != ""
+        assert result[0]["subscribers"] > 0
         return ".", result
     except AssertionError as e:
         return "F", str(e)
@@ -28,8 +28,8 @@ def test_scrape_subreddit():
         result = scrape_subreddit("python")
         assert result is not None
         assert len(result) > 0
-        assert result[0].title != ""
-        assert result[0].score > 0
+        assert result[0]["title"] != ""
+        assert result[0]["score"] > 0
         return ".", result
     except AssertionError as e:
         return "F", str(e)
@@ -43,8 +43,8 @@ def test_search_subreddit_by_keyword():
         result = search_subreddit_by_keyword("python", "reddit")
         assert result is not None
         assert len(result) > 0
-        assert result[0].title != ""
-        assert result[0].score > 0
+        assert result[0]["title"] != ""
+        assert result[0]["score"] > 0
         return ".", result
     except AssertionError as e:
         return "F", str(e)
@@ -58,8 +58,9 @@ def run_reddit_tests():
         test_scrape_subreddit,
         test_search_subreddit_by_keyword,
     ]
-    run_tests(tests, "reddit_skills")
+    _results = run_tests(tests, "reddit_skills")
+    return _results
 
 
 if __name__ == "__main__":
-    run_reddit_tests()
+    results = run_reddit_tests()

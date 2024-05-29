@@ -3,3 +3,7 @@
 !*.py
 !README.md
 !requirements.txt
+!reddit/
+!reddit/__init__.py
+!reddit_skills.py
+!reddit_skills_test.py
