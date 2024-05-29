@@ -81,39 +81,7 @@ def search_subreddit_by_keyword(
             list, "List of submissions in the subreddit that contain the keyword"
         ]([])
 
+# HELPER FUNCTIONS
 
-__doc__ = """
-Reddit Search
-=============
-This module provides functions to search for subreddits, users, and submissions in a subreddit.
 
-Functions
----------
-create_reddit_instance() -> Reddit:
-    Create a Reddit instance
-
-search_for_a_subreddit(subreddit: str) -> list:
-    Search for subreddits by name
-
-search_for_a_user(user: str) -> list:
-    Search for users by name
-
-scrape_subreddit(subreddit: str) -> list:
-    Search for submissions in a specific subreddit
-
-search_subreddit_by_keyword(subreddit: str, keyword: str) -> list:
-    Search for submissions in a specific subreddit that contain a keyword
-
-Attributes
-----------
-
-__doc__ : str
-    Module documentation string: Reddit Search
-
-__package__ : str
-    Package name: reddit_skills
-
-__path__ : str
-    Module path: reddit_skills.py
-"""
 
