@@ -12,7 +12,7 @@ def run_tests(tests: list, module_name: str | None = None) -> list:
         results.append((test.__name__, result[0], result[1]))
         print(result[0], end="", flush=True)
     print("  Done!\n")
-    print("\n==========\nResults\n==========\n")
+    print("\n==========+\n  Results\n==========+\n")
     for i, result in enumerate(results):
         print(
             f"\n{i}. {tests[i].__name__}\nResult: {'Passed' if result[1] not in ['F', '!'] else 'Failed'}\nReturned: {result[2]}"
