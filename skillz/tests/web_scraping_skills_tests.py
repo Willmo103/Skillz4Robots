@@ -1,24 +1,25 @@
-from skillz.tests.test_helpers import run_tests
-from skillz.web_scraping.web_scraping_skills import get_page
+import unittest
+from skillz.web_scraping.web_scraping_skills import get_webpage, duckduckgo_keyword_search
 
 
-def test_get_page_format():
-    """
-    The output of the function should format the html response
-    into markdown formatted text
-    :return:
-    """
-    _input = "https://notes.willmo.dev/"
-    try:
-        result = get_page(_input)
-        assert result is not None
-        assert len(result) > 0
-        return ".", result[:1000]
-    except AssertionError as e:
-        return "F", str(e)
-    except Exception as e:
-        return "!", str(e)
+class TestWebScrapingSkills(unittest.TestCase):
+
+    def test_get_page_format(self):
+        _input = "https://notes.willmo.dev/"
+        result = get_webpage(_input)
+        self.assertIsNotNone(result)
+        self.assertGreater(len(result), 0)
+
+    def test_duckduckgo_keyword_search(self):
+        _input = "python"
+        result = duckduckgo_keyword_search('python coding')
+        self.assertIsNotNone(result)
+        self.assertGreater(len(result), 0, "Expected non-empty result")
+        self.assertEqual(len(result), 5, "Expected 5 results")
+        self.assertNotEqual(result[0]['title'], "", "Expected non-empty result")
+        self.assertNotEqual(result[0]['href'], "", "Expected non-empty result")
+        self.assertNotEqual(result[0]['body'], "", "Expected non-empty result")
 
 
 if __name__ == '__main__':
-    run_tests([test_get_page_format], "web_scraping_skills")
+    unittest.main()

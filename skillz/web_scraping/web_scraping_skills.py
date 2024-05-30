@@ -1,9 +1,9 @@
 # annotation
-from typing import Annotated
 from markdownify import markdownify as md
 import requests
 from requests import Response
-import duckduckgo_search
+from duckduckgo_search import DDGS
+from typing import Annotated
 
 
 def get_webpage(
@@ -15,8 +15,6 @@ def get_webpage(
     :param url: str - URL of the page you want to scrape
     :return: str - Markdown converted content of the page
     """
-
-    # Get the content of the page
     response: Response = requests.get(url)
     converted = md(response.text, heading_style="MD").strip().replace("\n", "").replace("\t", "")
     if response.status_code != 200:
@@ -26,9 +24,13 @@ def get_webpage(
     return Annotated[str, "Markdown converted content of the page"](converted)
 
 
-# using the duckduckgo minified search python package to search
-# for a topic then use the search results to scrape the web page
-# !pip install duckduckgo_search
-def search_topic():
-    pass
+def duckduckgo_keyword_search(
+        keyword: Annotated[str, "keyword to search using the duckduckgo search engine and patterns"]
+) -> Annotated[list[dict], "The results from the search limit 5"]:
+    """search for a keywords using the duckduckgo search engine.
 
+    :param keyword: Annotated[str] - The topic you want to search for
+    :return: List[dict] - The search results from the search limit 5
+    """
+    results = DDGS().text(keyword, region='us-en', safesearch='off', max_results=5)
+    return Annotated[list[dict], "The results from the search limit 5"](results)
