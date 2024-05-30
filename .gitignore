@@ -1,13 +1,27 @@
+# Ignore everything
 *
+
+# Do not ignore these files
 !.gitignore
 !*.py
 !README.md
 !requirements.txt
+
+# Ignore all subdirectories
+!skillz/
 !skillz/reddit/
-!skillz/reddit/__init__.py
-!reddit_skills.py
-!reddit_skills_test.py
 !skillz/web_scraping/
+!tests/
+
+# Do not ignore specific Python files within these directories
+!skillz/reddit/__init__.py
+!skillz/reddit/reddit_skills.py
+!skillz/reddit/reddit_skills_test.py
 !skillz/web_scraping/__init__.py
-!web_scraping_skills.py
-!web_scraping_skills_test.py
+!skillz/web_scraping/web_scraping_skills.py
+!skillz/web_scraping/web_scraping_skills_test.py
+!tests/__init__.py
+!tests/web_scraping_skills_tests.py
+!tests/reddit_skills_tests.py
+!tests/test_helpers.py
+!tests/run_tests.py
