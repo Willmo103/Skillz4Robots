@@ -3,9 +3,11 @@
 !*.py
 !README.md
 !requirements.txt
-!reddit/
-!reddit/__init__.py
+!skillz/reddit/
+!skillz/reddit/__init__.py
 !reddit_skills.py
 !reddit_skills_test.py
-!web_scraping/
-!web_scraping/__init__.py
+!skillz/web_scraping/
+!skillz/web_scraping/__init__.py
+!web_scraping_skills.py
+!web_scraping_skills_test.py
