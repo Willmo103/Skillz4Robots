@@ -11,6 +11,7 @@
 !skillz/
 !skillz/reddit/
 !skillz/web_scraping/
+!skillz/file_skills/
 !tests/
 
 # Do not ignore specific Python files within these directories
@@ -25,3 +26,6 @@
 !tests/reddit_skills_tests.py
 !tests/test_helpers.py
 !tests/run_tests.py
+!skillz/file_skills/__init__.py
+!skillz/file_skills/file_skills.py
+!tests/file_skills_tests.py
