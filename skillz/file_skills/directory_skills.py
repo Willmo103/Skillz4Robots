@@ -561,4 +561,23 @@
 
 # ====================================================================================================================4
 # Skills to implement:
-# -
+# - TBD
+
+class File:
+    def __init__(self, path: str, parent: Directory | None = None):
+        self.path = path
+        self.parent = parent
+        self.was_modified = False
+        self.was_read = False
+        self.versions = []
+        self.content = ""
+        self.filename = os.path.basename(path)
+        self.extension = os.path.splitext(path)[1]
+
+    def get_content(self) -> str:
+        if not self.was_read:
+            with open(self.path, "r") as f:
+                self.content = f.read()
+            self.was_read = True
+        return self.content
+
