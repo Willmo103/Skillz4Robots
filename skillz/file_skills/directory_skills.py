@@ -563,16 +563,24 @@
 # Skills to implement:
 # - TBD
 
+import os
+
+
 class File:
     def __init__(self, path: str, parent: Directory | None = None):
-        self.path = path
-        self.parent = parent
-        self.was_modified = False
-        self.was_read = False
-        self.versions = []
-        self.content = ""
-        self.filename = os.path.basename(path)
-        self.extension = os.path.splitext(path)[1]
+        if os.path.exists(path) and not os.path.isfile(path):
+            self.path: str = path
+            self.parent: Directory = parent
+            self.was_modified = False
+            self.was_read = False
+            self.versions: list[str] = []
+            self.summary: str = ""
+            self.content: str = ""
+            self.tags: list[str] = []
+            self.filename: str = os.path.basename(path)
+            self.extension: str = os.path.splitext(path)[1]
+        else:
+            raise ValueError(f"Path {path} does not exist or is not a file.")
 
     def get_content(self) -> str:
         if not self.was_read:
@@ -581,3 +589,107 @@ class File:
             self.was_read = True
         return self.content
 
+    def update_content(self, content: str) -> None:
+        self.versions.append(self.content)
+        self.content = content
+        self.was_modified = True
+
+    def get_version(self, version: int) -> str:
+        if version == 0:
+            return self.content
+        elif version > 0:
+            return self.versions[version - 1]
+        else:
+            return self.versions[version]
+
+    def annotate(self, annotation: str) -> None:
+        self.content = f"/* {annotation} */\n" + self.content
+
+    def summarize(self, summary: str) -> None:
+        self.summary = summary
+
+    def tag_file(self, tag: str) -> None:
+        self.tags.append(tag)
+
+    def create_embedding(self) -> None:
+        ...
+
+
+class Directory:
+    def __init__(self, path: str, parent: Directory | None = None, is_root: bool = True):  # noqa
+        if os.path.exists(path) and os.path.isdir(path):
+            self.path: str = path
+            self.files: list[File] = []
+            self.directories: list[Directory] = []
+            self.parent: Directory = parent
+            self.is_root: bool = is_root
+        else:
+            raise ValueError(
+                f"Path {path} does not exist or is not a directory.")
+
+    def serialize(self) -> dict:
+        return {
+            "path": self.path,
+            "files": [file.serialize() for file in self.files],
+            "directories": [directory.serialize() for directory in self.directories],
+            "is_root": self.is_root
+        }
+
+    def get_file(self, name: str, recursive: bool = False) -> File:
+        for file in self.files:
+            if file.filename == name:
+                return file
+        if recursive:
+            for directory in self.directories:
+                file = directory.get_file(name, recursive)
+                if file:
+                    return file
+        return None
+
+    def get_files(self, recursive: bool = False) -> list[File]:
+        files = self.files
+        if recursive:
+            for directory in self.directories:
+                files.extend(directory.get_files(recursive))
+        return files
+
+    def get_subdirectory(self, name: str, recursive: bool = False) -> Directory:
+        for directory in self.directories:
+            if directory.path == name:
+                return directory
+        if recursive:
+            for directory in self.directories:
+                subdirectory = directory.get_subdirectory(name, recursive)
+                if subdirectory:
+                    return subdirectory
+        return None
+
+    def get_all_subdirectories(self, recursive: bool = False) -> list[Directory]:
+        directories = self.directories
+        if recursive:
+            for directory in self.directories:
+                directories.extend(directory.get_all_subdirectories(recursive))
+        return directories
+
+    def add_file(self, file: File) -> None:
+        for f in self.files:
+            if f.filename == file.filename:
+                self.files.remove(f)
+                break
+        self.files.append(file)
+
+    def add_directory(self, directory: Directory) -> None:
+        for d in self.directories:
+            if d.path == directory.path:
+                self.directories.remove(d)
+                break
+        self.directories.append(directory)
+
+    def remove_file(self, name: str, recursive: bool = False) -> None:
+        for file in self.files:
+            if file.filename == name:
+                self.files.remove(file)
+                return
+        if recursive:
+            for directory in self.directories:
+                directory.remove_file(name, recursive)
