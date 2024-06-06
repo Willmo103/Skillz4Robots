@@ -29,3 +29,4 @@
 !skillz/file_skills/__init__.py
 !skillz/file_skills/file_skills.py
 !tests/file_skills_tests.py
+!skillz/file_skills/ignore.json
