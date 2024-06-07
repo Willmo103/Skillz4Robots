@@ -72,10 +72,13 @@ class FileIgnore:
         self._log.info('ignore.json loaded')
         return self.ignore_patterns, self.except_patterns
 
+    # TODO: add a call to am llm to categorize the accepted patterns with a language name in a seperate json file
+
 
 class File:
     def __init__(self, path, content, visited=False, chunk_pattern="\n\n"):
         self.path = path
+        self.extension = os.path.splitext(path)[1] if os.path.splitext(path)[1] else None
         self.content = content
         self.visited = visited
         self.chunk_pattern = chunk_pattern
@@ -83,6 +86,15 @@ class File:
 
     def split_into_chunks(self):
         return self.content.split(self.chunk_pattern)
+
+    def markdown_template(self):
+        fignore = FileIgnore()
+        template = f"# {self.path}\n\n"
+        if self.extension in fignore.except_patterns:
+            template += f"```{self.extension}\n{self.content}\n```\n\n"
+
+        # TODO: Use a Xref table to map the extension to the language name and determine the template to use
+        return template
 
 
 class DirectoryIngestor:
@@ -138,6 +150,32 @@ class DirectoryIngestor:
         except Exception as e:
             _log.error(f'Error traversing path {path}: {e}')
         return structure
+
+
+class Directory:
+    def __init__(self, path, file_ignore):
+        di = DirectoryIngestor(path, file_ignore)
+        self.structure = di.structure
+        self.files = di.files
+        self.folders = di.folders
+        self.file_index = 0
+        self.folder_index = 0
+
+    def get_next_file(self):
+        while self.file_index < len(self.files):
+            file_obj = self.files[self.file_index]
+            self.file_index += 1
+            if file_obj.content:  # Skip files that are empty objects
+                file_obj.visited = True
+                return file_obj
+        return None
+
+    def get_next_folder(self):
+        if self.folder_index < len(self.folders):
+            folder = self.folders[self.folder_index]
+            self.folder_index += 1
+            return folder
+        return None
 
 
 # Example usage:
