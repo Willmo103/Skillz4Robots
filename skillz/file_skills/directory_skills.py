@@ -182,3 +182,6 @@ class Directory:
 fi = FileIgnore()
 codebase = DirectoryIngestor('../../../', fi)
 print(json.dumps(codebase.structure, indent=4))
+
+# TODO add a python formatting function using black and tmp t
+# files unless i can format the code in the markdownify function
