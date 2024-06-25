@@ -10,7 +10,7 @@ def get_webpage(
         url: Annotated[str, "URL of the page you want to scrape"]
 ) -> Annotated[str, "Markdown converted content of the page"]:
     """ Get the content of a web page using the URL, and convert it to
-    minified markdown format.
+    minified Markdown format.
 
     :param url: str - URL of the page you want to scrape
     :return: str - Markdown converted content of the page
